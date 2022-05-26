@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+const logger = require('../lib/logger')
+const request = require('request')
+const chalk = require('chalk')
+
+/**
+ * Padding.
+ */
+
+console.log()
+process.on('exit', () => {
+  console.log()
+})
+
+/**
+ * List repos.
+ */
+
+request({
+  url: 'https://api.github.com/orgs/eflyfrontend/repos',
+  headers: {
+    'User-Agent': 'rje-cli'
+  }
+}, (err, res, body) => {
+  if (err) logger.fatal(err)
+  const requestBody = JSON.parse(body)
+  if (Array.isArray(requestBody)) {
+    console.log('  可用的官方模版:')
+    console.log()
+    requestBody.forEach(repo => {
+      console.log(
+        '  ' + chalk.yellow('★') +
+        '  ' + chalk.green(repo.name) +
+        ' - ' + repo.description)
+    })
+  } else {
+    console.error(requestBody.message)
+  }
+})
