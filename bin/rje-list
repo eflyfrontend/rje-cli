@@ -8,6 +8,7 @@ const chalk = require('chalk')
  * Padding.
  */
 
+console.log('执行rje-list')
 console.log()
 process.on('exit', () => {
   console.log()
@@ -29,10 +30,12 @@ request({
     console.log('  可用的官方模版:')
     console.log()
     requestBody.forEach(repo => {
-      console.log(
-        '  ' + chalk.yellow('★') +
-        '  ' + chalk.green(repo.name) +
-        ' - ' + repo.description)
+      if (repo.name !== 'rje-cli') {
+        console.log(
+          '  ' + chalk.yellow('★') +
+          '  ' + chalk.green(repo.name) +
+          ' - ' + repo.description)
+      }
     })
   } else {
     console.error(requestBody.message)

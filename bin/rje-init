@@ -33,6 +33,8 @@ const isLocalPath = localPath.isLocalPath
 // 模板路径方法
 const getTemplatePath = localPath.getTemplatePath
 
+console.log('执行rje-init')
+
 /**
  * Usage.
  * 从命令中获取参数
@@ -77,24 +79,32 @@ help()
 let template = program.args[0]
 // 是否有“/”符号
 const hasSlash = template.indexOf('/') > -1
+console.log('hasSlash:', hasSlash)
 // 自定义项目名称，如：my-project
 const rawName = program.args[1]
+console.log('rawName:', rawName)
 // rawName存在或者为“.”的时候，视为在当前目录下构建
 const inPlace = !rawName || rawName === '.'
 // path.relative（）:根据当前工作目录返回相对路径
 const name = inPlace ? path.relative('../', process.cwd()) : rawName
 // 合并路径
 const to = path.resolve(rawName || '.')
+console.log('inPlace:', inPlace)
+console.log('name:', name)
+console.log('to:', to)
 // 检查参数是否clone
 const clone = program.clone || false
 // path.join（）:使用平台特定分隔符,将所有给定的路径连接在一起,然后对结果路径进行规范化
 // 如 ： /Users/admin/.rje-templates/webpack
 const tmp = path.join(home, '.rje-templates', template.replace(/[\/:]/g, '-'))
+console.log('template:', template)
 if (program.offline) {
   console.log(`> 使用${chalk.yellow(tildify(tmp))}的缓存模版`)
   // 设置为离线地址
   template = tmp
 }
+console.log('tmp:', tmp)
+console.log('template:', template)
 
 /**
  * Padding.
@@ -151,7 +161,7 @@ function run () {
       // 不包含“/”，去官网下载
       if (!hasSlash) {
         // use official templates
-        const officialTemplate = 'rje-templates/' + template
+        const officialTemplate = 'eflyfrontend/' + template
         if (template.indexOf('#') !== -1) {
           downloadAndGenerate(officialTemplate)
         } else {
@@ -185,6 +195,7 @@ function downloadAndGenerate (template) {
   if (exists(tmp)) rm(tmp)
   // download-git-repo：从仓库下载代码-GitHub，GitLab，Bitbucket
   // template:模板名  tmp:模板路径  clone:是否采用git clone模板   err：错误信息
+  // console.log('template:', template)
   download(template, tmp, { clone }, err => {
     spinner.stop()
     if (err) logger.fatal('下载模版 ' + template + '失败: ' + err.message.trim())
