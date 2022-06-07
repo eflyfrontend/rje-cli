@@ -192,13 +192,16 @@ function downloadAndGenerate (template) {
   const spinner = ora('downloading template')
   spinner.start()
   // Remove if local template exists
+  // 删除本地存在的模板
   if (exists(tmp)) rm(tmp)
   // download-git-repo：从仓库下载代码-GitHub，GitLab，Bitbucket
   // template:模板名  tmp:模板路径  clone:是否采用git clone模板   err：错误信息
   // console.log('template:', template)
   download(template, tmp, { clone }, err => {
     spinner.stop()
+    // 下载失败，进行对应错误提示
     if (err) logger.fatal('下载模版 ' + template + '失败: ' + err.message.trim())
+    // 模板下载成功之后，进入生产模板的方法中，进行下一步构建
     generate(name, tmp, to, err => {
       if (err) logger.fatal(err)
       console.log()
