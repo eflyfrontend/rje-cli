@@ -148,7 +148,7 @@ function run () {
       generate(name, templatePath, to, err => {
         if (err) logger.fatal(err)
         console.log()
-        logger.success('构建 "%s".', name)
+        logger.success('构建完成"%s"', name, '！')
       })
     } else {
       // 本地模板不存在-报错
@@ -205,7 +205,7 @@ function downloadAndGenerate (template) {
     generate(name, tmp, to, err => {
       if (err) logger.fatal(err)
       console.log()
-      logger.success('构建 "%s".', name)
+      logger.success('构建完成 "%s"', name, '！')
     })
   })
 }
