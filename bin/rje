@@ -1,11 +1,24 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const component = require('./rje-generate')
 
 program
   .version(require('../package').version)
   .usage('<command> [options]')
   .command('init', '使用官方模版创建项目')
   .command('list', '列出可用的官方模板')
+
+program
+  .command('generate <component-name>')
+  .alias('g')
+  .description('create a new component')
+  .action((name,cmd) => {
+      cmd = {
+          ...cmd,
+          commandType: 'component'
+      }
+      component(name, cmd)
+  })
 
 program.parse(process.argv)
